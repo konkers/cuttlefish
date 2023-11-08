@@ -1,11 +1,11 @@
 {
   "board": {
-    "active_layer": 0,
+    "active_layer": 37,
     "active_layer_preset": "",
     "auto_track_width": true,
     "hidden_netclasses": [],
     "hidden_nets": [],
-    "high_contrast_mode": 1,
+    "high_contrast_mode": 0,
     "net_color_mode": 1,
     "opacity": {
       "images": 0.6,
@@ -22,8 +22,8 @@
       "lockedItems": true,
       "otherItems": false,
       "pads": false,
-      "text": false,
-      "tracks": false,
+      "text": true,
+      "tracks": true,
       "vias": false,
       "zones": false
     },
@@ -63,7 +63,7 @@
       36,
       40
     ],
-    "visible_layers": "ff9ffff_fffffffd",
+    "visible_layers": "ff9ffff_fffffff9",
     "zone_display_mode": 0
   },
   "git": {
@@ -73,7 +73,7 @@
     "ssh_key": ""
   },
   "meta": {
-    "filename": "feeder2040.kicad_prl",
+    "filename": "cuttlefish-main.kicad_prl",
     "version": 3
   },
   "project": {

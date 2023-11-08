@@ -1,5 +1,5 @@
 (sym_lib_table
   (version 7)
   (lib (name "Mechanical_Switches")(type "KiCad")(uri "${KIPRJMOD}/../../third_party/konkers_kicad_lib/Mechanical_Switches.kicad_sym")(options "")(descr ""))
-  (lib (name "Konkers_Power_Management_LDO")(type "KiCad")(uri "C:/Users/konkers/play/feeder2040/third_party/konkers_kicad_lib/Konkers_Power_Management_LDO.kicad_sym")(options "")(descr ""))
+  (lib (name "Konkers_Power_Management_LDO")(type "KiCad")(uri "${KIPRJMOD}/../../third_party/konkers_kicad_lib/Konkers_Power_Management_LDO.kicad_sym")(options "")(descr ""))
 )

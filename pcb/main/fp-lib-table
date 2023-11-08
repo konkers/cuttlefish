@@ -3,6 +3,6 @@
   (lib (name "Konkers_Connectors_Header")(type "KiCad")(uri "${KIPRJMOD}/../../third_party/konkers_kicad_lib/Konkers_Connectors_Header.pretty")(options "")(descr ""))
   (lib (name "Konkers_Package_SON")(type "KiCad")(uri "${KIPRJMOD}/../../third_party/konkers_kicad_lib/Konkers_Package_SON.pretty")(options "")(descr ""))
   (lib (name "Konkers_Mechanical_Switches")(type "KiCad")(uri "${KIPRJMOD}/../../third_party/konkers_kicad_lib/Konkers_Mechanical_Switches.pretty")(options "")(descr ""))
-  (lib (name "Konkers_Diodes_LED")(type "KiCad")(uri "C:/Users/konkers/play/feeder2040/third_party/konkers_kicad_lib/Konkers_Diodes_LED.pretty")(options "")(descr ""))
-  (lib (name "Konkers_Inductors_SMD")(type "KiCad")(uri "C:/Users/konkers/play/feeder2040/third_party/konkers_kicad_lib/Konkers_Inductors_SMD.pretty")(options "")(descr ""))
+  (lib (name "Konkers_Diodes_LED")(type "KiCad")(uri "${KIPRJMOD}/../../third_party/konkers_kicad_lib/Konkers_Diodes_LED.pretty")(options "")(descr ""))
+  (lib (name "Konkers_Inductors_SMD")(type "KiCad")(uri "${KIPRJMOD}/../../third_party/konkers_kicad_lib/Konkers_Inductors_SMD.pretty")(options "")(descr ""))
 )

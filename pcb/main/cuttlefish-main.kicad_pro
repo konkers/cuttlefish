@@ -465,7 +465,7 @@
     ]
   },
   "meta": {
-    "filename": "feeder2040.kicad_pro",
+    "filename": "cuttlefish-main.kicad_pro",
     "version": 1
   },
   "net_settings": {
@@ -547,7 +547,7 @@
       "pos_files": "",
       "specctra_dsn": "",
       "step": "../../../../Downloads/feeder2040.step",
-      "svg": "",
+      "svg": "../../../../Downloads/",
       "vrml": ""
     },
     "page_layout_descr_file": ""
