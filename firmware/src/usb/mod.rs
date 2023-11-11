@@ -3,9 +3,11 @@ use embassy_futures::join::join;
 use embassy_rp::interrupt::typelevel::Binding;
 use embassy_rp::usb::{Driver, Instance, InterruptHandler};
 use embassy_rp::Peripheral;
-use embassy_usb::class::cdc_acm::{CdcAcmClass, State};
+use embassy_usb::class::cdc_acm::{self, CdcAcmClass};
 use embassy_usb::driver::EndpointError;
 use embassy_usb::{Builder, Config};
+
+mod picotool;
 
 pub async fn usb<'d, T: Instance>(
     usb_peripheral: impl Peripheral<P = T> + 'd,
@@ -13,7 +15,8 @@ pub async fn usb<'d, T: Instance>(
 ) {
     let driver = Driver::new(usb_peripheral, irq);
 
-    let mut config = Config::new(0xc0de, 0xcafe);
+    // Use RPI's VID/PID combo to allow interoperability with `picotool`.
+    let mut config = Config::new(0x2e8a, 0x000a);
     config.manufacturer = Some("Konkers");
     config.product = Some("Cuttlefish Console");
     config.serial_number = Some("12345678"); // TODO: replace with ID from flash chip.
@@ -35,7 +38,8 @@ pub async fn usb<'d, T: Instance>(
     // USB control endpoint descriptor
     let mut control_buf = [0; 64];
 
-    let mut state = State::new();
+    let mut cdc_acm_state = cdc_acm::State::new();
+    let mut picotool_state = picotool::State::new();
 
     let mut builder = Builder::new(
         driver,
@@ -48,7 +52,8 @@ pub async fn usb<'d, T: Instance>(
     );
 
     // Start building the USB device
-    let mut class = CdcAcmClass::new(&mut builder, &mut state, 64);
+    let mut cdc_acm_class = CdcAcmClass::new(&mut builder, &mut cdc_acm_state, 64);
+    let mut _picotool_class = picotool::PicotoolClass::new(&mut builder, &mut picotool_state);
 
     // Finish building USB device.
     let mut usb = builder.build();
@@ -56,9 +61,9 @@ pub async fn usb<'d, T: Instance>(
     let usb_future = usb.run();
     let connection_future = async {
         loop {
-            class.wait_connection().await;
+            cdc_acm_class.wait_connection().await;
             info!("USB Connected");
-            let _ = console(&mut class).await;
+            let _ = console(&mut cdc_acm_class).await;
             info!("USB Disconnected");
         }
     };
