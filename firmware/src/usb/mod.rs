@@ -1,3 +1,4 @@
+use base64::{engine::general_purpose, Engine as _};
 use defmt::{info, panic};
 use embassy_futures::join::join;
 use embassy_rp::interrupt::typelevel::Binding;
@@ -6,26 +7,42 @@ use embassy_rp::Peripheral;
 use embassy_usb::class::cdc_acm::{self, CdcAcmClass};
 use embassy_usb::driver::EndpointError;
 use embassy_usb::{Builder, Config};
+use heapless::{String, Vec};
 
 mod picotool;
+
+fn unique_id_string(id: &[u8; 8]) -> String<11> {
+    const BUF_LEN: usize = base64::encoded_len(8, false).unwrap();
+    let mut buf = Vec::<u8, BUF_LEN>::new();
+    let _ = buf.extend_from_slice(&[0u8; BUF_LEN]);
+    general_purpose::STANDARD_NO_PAD
+        .encode_slice(id, &mut buf)
+        .unwrap();
+
+    // Safety: base64 encode will generate valid utf8
+    unsafe { String::<BUF_LEN>::from_utf8_unchecked(buf) }
+}
 
 pub async fn usb<'d, T: Instance>(
     usb_peripheral: impl Peripheral<P = T> + 'd,
     irq: impl Binding<T::Interrupt, InterruptHandler<T>>,
+    unique_id: &[u8; 8],
 ) {
     let driver = Driver::new(usb_peripheral, irq);
 
+    let serial = unique_id_string(unique_id);
+    info!("serial: {}", serial.as_str());
     // Use RPI's VID/PID combo to allow interoperability with `picotool`.
     let mut config = Config::new(0x2e8a, 0x000a);
     config.manufacturer = Some("Konkers");
     config.product = Some("Cuttlefish Console");
-    config.serial_number = Some("12345678"); // TODO: replace with ID from flash chip.
+    config.serial_number = Some(&serial.as_str()); // TODO: replace with ID from flash chip.
     config.max_power = 100;
     config.max_packet_size_0 = 64;
 
     // Required for windows compatibility.
     // https://developer.nordicsemi.com/nRF_Connect_SDK/doc/1.9.1/kconfig/CONFIG_CDC_ACM_IAD.html#help
-    config.device_class = 0xEF;
+    config.device_class = 0xef;
     config.device_sub_class = 0x02;
     config.device_protocol = 0x01;
     config.composite_with_iads = true;

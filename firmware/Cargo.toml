@@ -6,6 +6,7 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+base64 = { version = "0.21.5", default_features = false }
 cortex-m = { version = "0.7.6", features = ["inline-asm"] }
 cortex-m-rt = "0.7.0"
 defmt = "0.3"
@@ -36,9 +37,9 @@ embassy-time = { version = "0.1.5", path = "../third_party/embassy-rs/embassy-ti
 embassy-usb = { version = "0.1.0", path = "../third_party/embassy-rs/embassy-usb", features = [
     "defmt",
 ] }
-# Pin heapless crate to avoid version conflicts on byteorder crate.
-heapless = "0.7.15"
+heapless = "0.8.0"
 panic-probe = { version = "0.3", features = ["print-defmt"] }
+rp2040-flash = "0.4.0"
 
 [profile.release]
 debug = 2
